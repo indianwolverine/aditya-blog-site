@@ -1,5 +1,5 @@
 +++
-title = "Glaunsingerl lab research"
+title = "Glaunsinger lab research"
 description = "A short summary of research done in the Glaunsinger lab at Berkeley"
 date = "2018-01-01"
 tags = ["projects"]
