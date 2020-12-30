@@ -1,0 +1,23 @@
+<h3 id="what-is-the-problem-that-is-being-solved">What is the problem that is being solved?</h3>
+<p>In an adversarial model, attackers can gain entry to databases by exploiting common software bugs. At that point, they will have full access to unencrypted data stored on the database. This is a common threat model and completely unaddressed in the literature so far.</p>
+<h3 id="what-are-the-key-results">What are the key results?</h3>
+<p>The authors present CryptDB, a database in which queries are run over encrypted data such that only users with the correct credentials can actually decrypt the underlying data. This is powerful because in this model, even attackers who have gained access to the database will be unable to decrypt any of the data, and are thus prevented from compromising the underlying data.</p>
+<p>Essentially there are two main threat models against which CryptDB tries to provide confidentiality:</p>
+<ol type="1">
+<li>A passive attacker who has full access to the system</li>
+<li>A malicious DBA with full admin access to the system</li>
+</ol>
+<p>The key design idea which makes CryptDB work is surprisingly beautiful and simple, a first for a security focused system. Since a SQL system only has to support a predefined set of operations, different levels of encryption can be used depending on the semantics of the query. Essentially, there are different levels of encryption:</p>
+<ol type="1">
+<li>RND - preserves no order among data, useful for simply getting all data</li>
+<li>DET - Identical values have identical ciphertexts, supports group by, count, distinct</li>
+<li>OPE - perserves order between values, useful for order by, min, max, sort</li>
+<li>HOM - full homomorphic encrytion, expensive but can compute arbitrarily over encrypted data</li>
+<li>JOIN and OPE-JOIN - useful for joins</li>
+<li>SEARCH - supports text search</li>
+</ol>
+<p>All data in the system, depending on which queries need to be supported on it, is encrypted in an onion scheme i.e. it is first encrypted with weaker forms of such as OPE, and then by stronger forms such as RND. When a query needs to operate on data in a certain way, first the level of encryption needed to support the query is determined, the data is decrypted to that level, and then the query is executed.</p>
+<h3 id="what-are-some-of-the-limitations-and-how-might-this-work-be-improved">What are some of the limitations and how might this work be improved?</h3>
+<p>Obviously there is the performance hit that CryptDB takes compared to a normal DBMS. However, it is likely that only very small DB’s protecting a subset of information will need the security guarantees provided by CryptDB, and it’s likely feasible for an organization to run a few secure instances.</p>
+<h3 id="how-might-this-work-have-long-term-impact">How might this work have long term impact?</h3>
+<p>In cases where stronger security guarantees are needed at smaller scale, CryptDB has the potential to be very impactful. However, due to the performance hit it takes, it’s unlikely performance critical applications, even if they store critical data, use CryptDB. On the other hand, if there is a way to safely encrypt only a subset of the data, that might be useful for production use.</p>

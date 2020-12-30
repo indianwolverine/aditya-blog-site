@@ -1,0 +1,29 @@
+<h3 id="what-is-the-problem-that-is-being-solved">What is the problem that is being solved?</h3>
+<p>As software engineering has evolved to incorporate multiprocessors, clusters (and their scale), and networks, programming languages developed before this era haven’t been able to provide clean abstractions to handle these new challenges. This is especially problematic at Google, where thousands of engineers work on the same codebase and need a language which does smart things when it comes to dependency management, concurrency, and modularity when running at Google scale.</p>
+<h3 id="what-are-the-key-results">What are the key results?</h3>
+<p>Rob Pike presents his latest invention, the Go programming language, which is open source, compiled, concurrent, garbage-collected, and statically typed. Interestingly, Go was developed in response to software engineering needs and not as a research endeavor in programming languages, which makes it different from previous language work.</p>
+<p>Specifically, Go focuses on solving the following problems:</p>
+<ol type="1">
+<li>slow builds</li>
+<li>uncontrolled dependencies</li>
+<li>each programmer using a different subset of the language</li>
+<li>poor program understanding (code hard to read, poorly documented, and so on)</li>
+<li>duplication of effort</li>
+<li>cost of updates</li>
+<li>version skew</li>
+<li>difficulty of writing automatic tools</li>
+<li>cross-language builds</li>
+</ol>
+<p>Dependency Management - Requires use of ifndef compilation guards in C, C++, scales badly when lots of extraneous includes in large project -&gt; makes compiler scan files doing no useful work - This is especially bad for Google scale, as building a binary can take very long - In Go, an unused import leads to a compiler error - Furthermore, imports are read from the beginning of the imported object file, as export data, greatly speeding up compilation</p>
+<p>Packages - import path must be unique, but can name package anything within file - URL’s can be used as package imports</p>
+<p>Syntax - nearly regular grammar - very easy to parse - no objects, but methods can be defined which operate on specific structs</p>
+<p>Naming - public starts with uppercase, private with lower - simple scope hierarchy - always clear which object is being used, no use of this - no method name overloading</p>
+<p>Semantics - mostly C like - include langauge support for concurrency, GC, interfaces, reflection, type switches</p>
+<p>Concurrency and Garbage Collection - support for channels, go is garbage collected</p>
+<p>Composition - no type hierarchy, instead there are interfaces which types can implement</p>
+<p>Errors - functions simply return errors as well as the normal value, programmer checks for error</p>
+<p>Tools - simple language design enable host of tools - gofmt, gofix etc.</p>
+<h3 id="what-are-some-of-the-limitations-and-how-might-this-work-be-improved">What are some of the limitations and how might this work be improved?</h3>
+<p>The paper doesn’t go into too much detail regarding Go’s concurrency model, but from experience, the language’s built-in support of user level threads is not great. Other than that and garbage collecting, which will always lead to nondeterminism in systems, Go is a very well designed language.</p>
+<h3 id="how-might-this-work-have-long-term-impact">How might this work have long term impact?</h3>
+<p>Go has had a massive impact, especially in the systems community, due to its clean design, great decisions in a number of different areas such as composition, dependency management, naming, and error handling. Most new systems which are built are done in Go or C is performance is required, and Rust to some degree. Despite its faults, Go does start the conversation of language design for the new systems paradigm of cloud computing i.e. how can a language provide clean abstractions while also providing good control of the hardware while otherwise staying out of the way.</p>

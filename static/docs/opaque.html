@@ -1,0 +1,22 @@
+<h3 id="what-is-the-problem-that-is-being-solved">What is the problem that is being solved?</h3>
+<p>Big data workloads in the cloud often handle lots of sensitive information and currently, even with hardware enclaves, there is no way to secure these workloads without adversely affecting performance. Importantly, even hardware enclaves leak access patterns at the network and memory level. A new framework is needed which provides stronger security guarantees in the cloud.</p>
+<h3 id="what-are-the-key-results">What are the key results?</h3>
+<p>The authors present Opaque, an oblivious distributed data analytics platform which hides access pattern leakage. Opaque does this by providing distributed relation operators which protect against access pattern leakage as well as query planning for rules and costs. Opaque can be run in the following modes:</p>
+<ol type="1">
+<li>encryption mode - guarantees data encryption and authentication as well as correct execution</li>
+<li>oblivious mode - additionally protects against access pattern leakage</li>
+<li>oblivious pad mode - additionally protects against size leakage</li>
+</ol>
+<p>To support the encryption mode, common data encryption techniques are used to provide the guarantees. To support the oblivious modes, Opaque develops a set of oblivious operators:</p>
+<ol type="1">
+<li>oblivious sort</li>
+<li>oblivious aggregate</li>
+<li>oblivious filter</li>
+<li>oblivious sort-merge join</li>
+</ol>
+<p>Using these oblivious primitives, Opaque then introduces the idea of a cost model associated with oblivious operators during query planning. Using this novel cost model, Opaque is able to optimize query plans using oblivious operators.</p>
+<p>To account for mixed sensitivity i.e. computations where at least one table is sensitive and at least one isn’t, Opaque borrows ideas of tainting from the information flow model. This prevents sensitive information from inadvertantly being leaked via an unprivileged table operation.</p>
+<h3 id="what-are-some-of-the-limitations-and-how-might-this-work-be-improved">What are some of the limitations and how might this work be improved?</h3>
+<p>Obviously, there are the performance hits that the system takes due to the security concerns, but that shouldn’t really be a problem as long as the sensitive datasets are small. More importantly, there is a tight coupling between Opaque and Spark SQL, so it remains to be seen whether the work can be replicated on other distributed data analytics platforms or whether Spark provides guarantees which are necessary for the correct operation of Opaque.</p>
+<h3 id="how-might-this-work-have-long-term-impact">How might this work have long term impact?</h3>
+<p>This work has the potential to be immensely impactful if performance degradation can be improved and if industry finds value in protecting certain sensitive information. Certainly this seems to be the case since hardware enclaves are already widely available, and Opaque only improves on their usage by providing even stronger security guarantees.</p>
